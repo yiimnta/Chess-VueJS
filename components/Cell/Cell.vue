@@ -46,7 +46,6 @@ export default {
       event.target.parentElement.className += ' chess-drag'
       event.dataTransfer.setData('chess-piece', event.target.id)
       event.dataTransfer.setData('parent-cell', event.target.parentElement.id)
-      console.log('drag', event.target.parentElement.id)
       setTimeout(() => {
         event.target.className = 'invisible'
       }, 0)
@@ -56,7 +55,6 @@ export default {
     },
     dragOver (event) {
       event.preventDefault()
-      console.log('over')
     },
     dragDrop (event) {
       event.preventDefault()

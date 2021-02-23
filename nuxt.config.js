@@ -11,13 +11,17 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Lato&display=swap'
+      }
     ],
     script: [
-      // {
-      //   src: "https://code.jquery.com/jquery-3.3.1.js",
-      //   type: "text/javascript"
-      // }
+      {
+        src: "https://code.jquery.com/jquery-3.3.1.js",
+        type: "text/javascript"
+      }
     ]
   },
 
@@ -43,7 +47,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-socket-io'
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -55,5 +60,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  io: {
+    sockets: [{
+      name: 'main',
+      url: 'http://localhost:3000'
+    }]
   }
 }

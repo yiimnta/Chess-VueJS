@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Board />
+    <ChatBox />
   </div>
 </template>
 <script>
