@@ -1,2 +1,2 @@
 # chess
- Chess with VueJS
+ Chess with VueJS + NuxtJS + Socket io
