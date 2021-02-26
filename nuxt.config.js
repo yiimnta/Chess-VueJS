@@ -18,19 +18,17 @@ export default {
       }
     ],
     script: [
-      {
-        src: "https://code.jquery.com/jquery-3.3.1.js",
-        type: "text/javascript"
-      }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/tooltip.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/v-tooltip'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -56,10 +54,6 @@ export default {
     manifest: {
       lang: 'en'
     }
-  },
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
   },
 
   io: {
