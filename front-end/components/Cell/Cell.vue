@@ -49,8 +49,7 @@ export default {
       setTimeout(() => {
         event.target.className = 'invisible'
       }, 0)
-    },ls
-
+    },
     dragEnd (event) {
       event.target.className = ''
     },

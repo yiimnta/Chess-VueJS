@@ -2,63 +2,26 @@
   <section class="board m-auto text-center">
     <div class="grid grid-flow-col">
       <div class="cell-alias-number" />
-      <div class="cell-alias">
-        a
+      <div v-for="(label_top, index) in labels" :key="index + '_top'" class="cell-alias">
+        {{label_top}}
       </div>
-      <div class="cell-alias">
-        b
-      </div>
-      <div class="cell-alias">
-        c
-      </div>
-      <div class="cell-alias">
-        d
-      </div>
-      <div class="cell-alias">
-        e
-      </div>
-      <div class="cell-alias">
-        f
-      </div>
-      <div class="cell-alias">
-        g
-      </div>
-      <div class="cell-alias">
-        h
-      </div>
+      <div class="cell-alias-number" />
     </div>
     <div v-for="(line, index) in board" :key="index" class="table-line grid grid-flow-col">
       <div class="cell-alias-number">
         {{ 8-index }}
       </div>
       <BoardLine :line-key="index" :line="line" />
+      <div class="cell-alias-number">
+        {{ 8-index }}
+      </div>
     </div>
     <div class="grid grid-flow-col">
       <div class="cell-alias-number" />
-      <div class="cell-alias">
-        a
+      <div v-for="(label_bot, index) in labels" :key="index + '_bottom'" class="cell-alias">
+        {{label_bot}}
       </div>
-      <div class="cell-alias">
-        b
-      </div>
-      <div class="cell-alias">
-        c
-      </div>
-      <div class="cell-alias">
-        d
-      </div>
-      <div class="cell-alias">
-        e
-      </div>
-      <div class="cell-alias">
-        f
-      </div>
-      <div class="cell-alias">
-        g
-      </div>
-      <div class="cell-alias">
-        h
-      </div>
+      <div class="cell-alias-number" />
     </div>
   </section>
 </template>
@@ -66,13 +29,14 @@
 <script>
 export default {
   data: () => ({
+    labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
     board: ['rnbqkbnr', 'pppppppp', '8', '8', '8', '8', 'PPPPPPPP', 'RNBQKBNR']
   })
 }
 </script>
 
 <style lang="scss">
-$width: 664px;
+$width: 688px;
 .board {
     width:$width;
     border: 10px solid;
