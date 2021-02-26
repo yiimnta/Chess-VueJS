@@ -1,0 +1,19 @@
+{
+  "name": "chess",
+  "version": "1.0.0",
+  "description": "game chess",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yiimnta/Chess-VueJS.git"
+  },
+  "author": "vantinhchu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yiimnta/Chess-VueJS/issues"
+  },
+  "homepage": "https://github.com/yiimnta/Chess-VueJS#readme"
+}
