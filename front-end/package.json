@@ -11,6 +11,10 @@
     "lint": "yarn lint:js --fix"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/pwa": "^3.3.4",
     "core-js": "^3.8.2",
     "jquery": "^3.5.1",

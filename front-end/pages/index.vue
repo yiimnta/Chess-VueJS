@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!--    <ChatBox />-->
-    <Board />
+    <ChatBox />
   </div>
 </template>
 <script>

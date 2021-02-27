@@ -3,7 +3,7 @@
     <div class="grid grid-flow-col">
       <div class="cell-alias-number" />
       <div v-for="(label_top, index) in labels" :key="index + '_top'" class="cell-alias">
-        {{label_top}}
+        {{ label_top }}
       </div>
       <div class="cell-alias-number" />
     </div>
@@ -19,7 +19,7 @@
     <div class="grid grid-flow-col">
       <div class="cell-alias-number" />
       <div v-for="(label_bot, index) in labels" :key="index + '_bottom'" class="cell-alias">
-        {{label_bot}}
+        {{ label_bot }}
       </div>
       <div class="cell-alias-number" />
     </div>
