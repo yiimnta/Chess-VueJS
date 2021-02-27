@@ -34,8 +34,8 @@
               </div>
             </div>
             <div class="newMessageForm flex">
-              <span class="textarea w-4/5" role="textbox" contenteditable />
-              <button type="button" class="w-1/5 sendMsgBtn">
+              <span id="newMessageInput" class="textarea w-4/5" role="textbox" contenteditable @input="onInputNewsMessage($event)" />
+              <button type="button" class="w-1/5 sendMsgBtn" :disabled="newMessageType === ''">
                 <font-awesome-icon :icon="['fas', 'paper-plane']" />
               </button>
             </div>
@@ -104,6 +104,11 @@ export default {
     }, 0)
   },
   methods: {
+    onInputNewsMessage (event) {
+      /* eslint-disable */
+      this.newMessageType = event.target.innerText
+      /* eslint-enable */
+    },
     showUsuario (id) {
       console.log(id)
     },
@@ -341,11 +346,16 @@ export default {
     .sendMsgBtn {
       border-radius: 50%;
       width: 45px;
+      max-height: 45px;
       margin: 5px 10px;
       padding: 5px 7px;
       background: aliceblue;
       color: #016a7b;
       outline: none;
+      &:disabled {
+        color: #c4eff6;
+        background: #76a7af;
+      }
     }
   }
 }
