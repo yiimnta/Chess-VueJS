@@ -10,10 +10,17 @@
     "type": "git",
     "url": "git+https://github.com/yiimnta/Chess-VueJS.git"
   },
-  "author": "vantinhchu",
+  "author": "vantinhchu, annguyen",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/yiimnta/Chess-VueJS/issues"
   },
-  "homepage": "https://github.com/yiimnta/Chess-VueJS#readme"
+  "homepage": "https://github.com/yiimnta/Chess-VueJS#readme",
+  "dependencies": {
+    "apollo-server": "^2.21.0",
+    "graphql": "^15.5.0",
+    "neo4j-driver": "^4.2.2",
+    "neo4j-graphql-js": "^2.19.2"
+  },
+  "type": "module"
 }
