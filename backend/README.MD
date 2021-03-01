@@ -1,5 +1,7 @@
 We are creating a graphql api for the front end with neojs database and use jsonn webtoken to create a token for the customer
 # run backend with es6
+nodemon --experimental-modules backend/index.js
+
 node --experimental-modules backend/index.js
 ref: https://nodejs.org/api/esm.html
 
