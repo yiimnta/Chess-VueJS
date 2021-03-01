@@ -1,3 +1,4 @@
+
 const typeDefs = `
 type User{
     id: ID
@@ -11,7 +12,7 @@ type Query{
 }
 
 type Mutation{
-    login(email: String, password: String): String
+    login(email: String, password: String): String @cypher(statement: "MATCH (u:User {email: $email, password: $password}) RETURN user { .name , .password} AS user SKIP 0")
     signup(email: String!, password: String!, name: String!): String
 }
 `;
