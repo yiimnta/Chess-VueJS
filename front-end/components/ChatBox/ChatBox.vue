@@ -4,7 +4,7 @@
       <div>
         <a @click="expandChatList()">
           <div class="header">
-            <p class="title">Messagers</p>
+            <p class="title"><font-awesome-icon :icon="['fa', 'comments']" /> Messagers</p>
           </div>
         </a>
         <div class="chatContent flex">
@@ -12,7 +12,7 @@
             id="userListBox"
             class="w-2/5"
           >
-            <article v-for="user in listUsers" :key="user.id" :class="'user-item flex' + (user.id === 1 ? ' active': '') ">
+            <article v-for="user in listUsers" :key="user.id" :class="'user-item flex' + ( friendUser && user.id === friendUser.id ? ' active': '') " @click="assignFriendUser(user)">
               <div class="left w-1/4 text-center">
                 <img :src="require(`~/assets/users/avatar/${user.avatar}`)">
               </div>
@@ -22,24 +22,7 @@
               </div>
             </article>
           </div>
-          <div id="messages" class="w-3/5">
-            <div id="messageList" ref="messageList">
-              <div v-for="message in messages" :key="message.id" :class="'message-item flex' + (message.user === currentUser?' flex-row-reverse':'')">
-                <div class="w-1/6 avatar">
-                  <img :src="require(`~/assets/users/avatar/${ message.user.avatar }`)">
-                </div>
-                <div :class="'message w-5/6' + (message.user === currentUser?' owner':'')">
-                  <p>{{ message.content }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="newMessageForm flex">
-              <span id="newMessageInput" class="textarea w-4/5" role="textbox" contenteditable @input="onInputNewsMessage($event)" />
-              <button type="button" class="w-1/5 sendMsgBtn" :disabled="newMessageType === ''">
-                <font-awesome-icon :icon="['fas', 'paper-plane']" />
-              </button>
-            </div>
-          </div>
+          <message-list :list-messages="listMessages" :current-user="currentUser" />
         </div>
       </div>
     </div>
@@ -47,25 +30,22 @@
 </template>
 <script>
 import $ from 'jquery'
+import MessageList from '../MesssageList/MessageList.vue'
 
 export default {
+  components: { MessageList },
   data () {
     const users = [
-      { id: 1, name: 'An', avatar: 'user-1.jpg', lastMsg: 'hello 1' },
-      { id: 2, name: 'Na', avatar: 'user-2.jpg', lastMsg: 'hello 2' },
-      { id: 3, name: 'Hoai', avatar: 'user-3.png', lastMsg: 'hello 3' },
-      { id: 4, name: 'User-4', avatar: 'user-1.jpg', lastMsg: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.' },
-      { id: 5, name: 'User-5', avatar: 'user-2.jpg', lastMsg: 'At vero eos et accusam et justo duo' },
-      { id: 6, name: 'User-6', avatar: 'user-3.png', lastMsg: 'At vero eos et accusam et justo duo dolores et ea rebum.' }
+      { id: 1, name: 'An', avatar: 'user-1.jpg', lastMsg: 'hello 1', messages: [] },
+      { id: 2, name: 'Na', avatar: 'user-2.jpg', lastMsg: 'hello 2', messages: [] },
+      { id: 3, name: 'Hoai', avatar: 'user-3.png', lastMsg: 'hello 3', messages: [] },
+      { id: 4, name: 'User-4', avatar: 'user-1.jpg', lastMsg: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.', messages: [] },
+      { id: 5, name: 'User-5', avatar: 'user-2.jpg', lastMsg: 'At vero eos et accusam et justo duo', messages: [] },
+      { id: 6, name: 'User-6', avatar: 'user-3.png', lastMsg: 'At vero eos et accusam et justo duo dolores et ea rebum.', messages: [] }
     ]
 
-    return {
-      showChatList: false,
-      chatBoxArea: true,
-      newMessageType: '',
-      users,
-      currentUser: users[0],
-      messages: [
+    const messages = [
+      [
         { id: 'm_1', user: users[0], content: 'hello Na', time: Date.now() },
         { id: 'm_2', user: users[0], content: 'what are u doing?', time: Date.now() },
         { id: 'm_3', user: users[1], content: 'hello An', time: Date.now() },
@@ -74,7 +54,34 @@ export default {
         { id: 'm_6', user: users[1], content: 'phắc du', time: Date.now() },
         { id: 'm_7', user: users[0], content: 'shut up! :))) ', time: Date.now() },
         { id: 'm_8', user: users[1], content: 'phắc du', time: Date.now() }
+      ],
+      [
+        { id: 'm_9', user: users[0], content: 'hello Na', time: Date.now() },
+        { id: 'm_10', user: users[2], content: 'what are u doing?', time: Date.now() },
+        { id: 'm_11', user: users[2], content: 'hello An', time: Date.now() },
+        { id: 'm_12', user: users[2], content: 'I\'m chatting with you =]]z', time: Date.now() },
+        { id: 'm_13', user: users[0], content: 'shut up! :))) ', time: Date.now() },
+        { id: 'm_14', user: users[2], content: 'phắc du', time: Date.now() },
+        { id: 'm_15', user: users[0], content: 'shut up! :))) ', time: Date.now() },
+        { id: 'm_16', user: users[2], content: 'phắc du', time: Date.now() }
+      ],
+      [
+        { id: 'm_17', user: users[0], content: 'hello Na', time: Date.now() },
+        { id: 'm_18', user: users[3], content: 'what are u doing?', time: Date.now() },
+        { id: 'm_16', user: users[3], content: 'phắc du', time: Date.now() }
       ]
+    ]
+
+    users[1].messages = messages[0]
+    users[2].messages = messages[1]
+    users[3].messages = messages[2]
+
+    return {
+      showChatList: false,
+      chatBoxArea: true,
+      users,
+      currentUser: users[0],
+      friendUser: users[1]
     }
   },
   computed: {
@@ -85,51 +92,18 @@ export default {
         e.nameFixed = e.name.length <= 25 ? e.name : (e.name.substr(0, 25) + '...')
         return e
       })
-    }
-  },
-  watch: {
-    messages () {
-      setTimeout(() => {
-        if (this.$refs.messageList) {
-          this.$refs.messageList.scrollTop = this.$refs.messageList.scrollHeight
-        }
-      }, 0)
-    }
-  },
-  mounted () {
-    setTimeout(() => {
-      if (this.$refs.messageList) {
-        this.$refs.messageList.scrollTop = this.$refs.messageList.scrollHeight
+    },
+    listMessages () {
+      if (!this.friendUser) {
+        return []
       }
-    }, 0)
+      return this.users.find(e => e.id === this.friendUser.id).messages
+    }
   },
   methods: {
-    onInputNewsMessage (event) {
-      /* eslint-disable */
-      this.newMessageType = event.target.innerText
-      /* eslint-enable */
+    assignFriendUser (user) {
+      this.friendUser = { ...user }
     },
-    showUsuario (id) {
-      console.log(id)
-    },
-    expandTextArea () {
-      // $('#chatBox-textbox').height(80)
-      // $('#chatTextarea').height(60)
-    },
-    dexpandTetArea () {
-      // $('#chatBox-textbox').height(60)
-      // $('#chatTextarea').height(40)
-    },
-    toggleChat () {
-      if (this.chatBoxArea) {
-        // $('#chatbox-area').hide()
-      } else {
-        // $('#chatbox-area').show()
-      }
-      this.chatBoxArea = !this.chatBoxArea
-    },
-    openChatBox (info) {},
-    startChat (user) {},
     expandChatList () {
       $('#userListBox').slideToggle()
       $('#messages').slideToggle()
@@ -159,6 +133,9 @@ export default {
       font-family: 'Lato';
       font-size: 15px;
       font-weight: 800;
+      svg {
+        color: #008196;
+      }
     }
   }
   .image img {
@@ -252,110 +229,6 @@ export default {
     }
     &.active {
       background: #79dbea70;
-    }
-  }
-}
-
-#messages {
-  background: #7abcc7;
-  overflow-y: hidden;
-  height: 400px;
-  #messageList {
-    height: 350px;
-    overflow: auto;
-    padding-bottom: 10px;
-    &::-webkit-scrollbar-track
-    {
-      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-      background-color: #F5F5F5;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar
-    {
-      width: 5px;
-      background-color: #F5F5F5;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 5px;
-      background-image: -webkit-gradient(linear,
-                        left bottom,
-                        left top,
-                        color-stop(0.44, #1fa6bb),
-                        color-stop(0.72, #15fff1),
-                        color-stop(0.86, #20d3dc));
-    }
-    .message-item {
-      margin: 5px 8px;
-      .avatar {
-        img {
-          width: 45px;
-          height: 45px;
-          border-radius: 50%;
-          border: 4px solid #cad0ce;
-          margin: auto;
-        }
-      }
-      .message {
-        background: rgba(253,252,252,0.85098);
-        padding-left: 12px;
-        padding-bottom: 8px;
-        padding-top: 10px;
-        padding-right: 12px;
-        word-break: break-word;
-        font-size: .9375rem;
-        max-width: 75%;
-        width: -webkit-fit-content;
-        width: -moz-fit-content;
-        width: fit-content;
-        border-radius: 5px;
-        overflow: hidden;
-        &.owner {
-          background: #016a7b;
-          color: white;
-        }
-      }
-    }
-  }
-  .newMessageForm {
-    width: 100%;
-    bottom: 0px;
-    .textarea {
-      display: block;
-      width: 100%;
-      resize: none;
-      min-height: 40px;
-      max-height: 89px;
-      line-height: 20px;
-      background: white;
-      overflow-y: auto;
-      padding: 5px;
-      margin: 3px;
-      margin-left: 7px;
-      border-radius: 3px;
-      outline: none;
-      font-size: 14px;
-    }
-
-    .textarea[contenteditable]:empty::before {
-      content: "Aa";
-      color: gray;
-    }
-    .sendMsgBtn {
-      border-radius: 50%;
-      width: 45px;
-      max-height: 45px;
-      margin: 5px 10px;
-      padding: 5px 7px;
-      background: aliceblue;
-      color: #016a7b;
-      outline: none;
-      &:disabled {
-        color: #c4eff6;
-        background: #76a7af;
-      }
     }
   }
 }

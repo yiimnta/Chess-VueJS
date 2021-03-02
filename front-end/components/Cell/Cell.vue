@@ -26,7 +26,8 @@ export default {
       default: ' '
     },
     cellKey: {
-      type: String
+      type: String,
+      default: ''
     }
   },
   computed: {

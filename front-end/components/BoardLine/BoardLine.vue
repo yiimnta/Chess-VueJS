@@ -11,7 +11,8 @@ export default {
       default: '8'
     },
     lineKey: {
-      type: Number
+      type: Number,
+      default: -1
     }
   },
   computed: {
