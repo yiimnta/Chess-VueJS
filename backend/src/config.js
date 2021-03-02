@@ -1,8 +1,9 @@
 import neo4j from 'neo4j-driver';
 
 const driver = neo4j.driver(
-    'bolt://localhost:7687',
-    neo4j.auth.basic('neo4j', '123456')
+    'bolt://3.92.18.75:7687',
+    // neo4j.auth.basic('neo4j', '123456')
+    neo4j.auth.basic('neo4j', 'neo4j')
 );
 
 export default driver

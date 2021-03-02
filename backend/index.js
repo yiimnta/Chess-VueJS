@@ -12,10 +12,11 @@ const schema = makeAugmentedSchema({ typeDefs,
         mutation: false
     } });
 
+
 import apollo from 'apollo-server'
 const { ApolloServer } = apollo
 
-const server = new ApolloServer({ schema, context: { driver } });
+const server = new ApolloServer({ schema, context: { driver, } });
 
 server.listen(3003, '0.0.0.0').then(({ url }) => {
     console.log(`GraphQL API ready at ${url}`);

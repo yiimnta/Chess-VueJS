@@ -12,7 +12,7 @@ type Query{
 }
 
 type Mutation{
-    login(email: String, password: String): String @cypher(statement: "MATCH (u:User {email: $email, password: $password}) RETURN user { .name , .password} AS user SKIP 0")
+    login(email: String, password: String): String
     signup(email: String!, password: String!, name: String!): String
 }
 `;
