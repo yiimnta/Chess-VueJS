@@ -1,6 +1,7 @@
 const {ApolloServer, makeExecutableSchema} = require('apollo-server');
 const {UsersDataSource} = require('./dataSources/UsersDataSource');
 const {RoomsDataSource} = require('./dataSources/RoomsDataSource');
+const {MessagesDataSource} = require('./dataSources/MessagesDataSource');
 const typeDefs = require('./typeDefs');
 const Resolvers = require('./resolver');
 const {applyMiddleware} = require('graphql-middleware');
@@ -11,8 +12,9 @@ const { stitchSchemas } =  require('@graphql-tools/stitch');
 
 const usersMemory = new UsersDataSource();
 const roomsMemory = new RoomsDataSource();
+const messagesMemory = new MessagesDataSource();
 
-const dataSources = () => ({ usersDataSrc: usersMemory, roomsDataSrc: roomsMemory })
+const dataSources = () => ({ usersDataSrc: usersMemory, roomsDataSrc: roomsMemory, messagesDataSrc: messagesMemory })
 
 const resolvers = Resolvers({subschema})
 

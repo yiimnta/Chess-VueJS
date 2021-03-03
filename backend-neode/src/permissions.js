@@ -1,4 +1,4 @@
-const { rule, shield, allow, deny} = require('graphql-shield');
+const { rule, shield, allow, deny, and} = require('graphql-shield');
 const { validateEmail, validatePassword } = require('./utils')
 const User = require('./dataSources/enities/User')
 
@@ -29,20 +29,30 @@ const isValidatedSignup = rule({ cache: "contextual" })(
   }
 );
 
+const isValidatedWriteMessage = rule({ cache: "contextual" })(
+  async (_parent, _args, context ) => {
+    _args.content = _args.content.trim()
+    if ("" === _args.content) return new Error('Content is not empty')
+
+    return true
+  }
+);
+
 //Permissions
 const permissions = shield({
     Query: {
       '*': deny,
-      users: isAuthenticated,
-      rooms: isAuthenticated,
-      messages: isAuthenticated
+      users: allow,
+      rooms: allow,
+      messages: allow
     },
     Mutation: {
       '*': deny,
       createRoom: isAuthenticated,
       login: allow,
       signup: isValidatedSignup,
-      addFriend: isAuthenticated
+      addFriend: isAuthenticated,
+      writeMessage: and(isAuthenticated, isValidatedWriteMessage)
     },
   }, { allowExternalErrors: true })
 

@@ -41,6 +41,10 @@ const resolvers = ({subschema}) => ({
     createRoom: async (parent, args, context, info) => {
       const createdRoom = await context.dataSources.roomsDataSrc.createRoom(args.friendId)
       return await delegateQuery('Room', {id: createdRoom.id}, context, info, subschema)
+    },
+    writeMessage: async (parent, args, context, info) => {
+      const createdMessage = await context.dataSources.messagesDataSrc.writeMessage(args.roomId, args.content)
+      return await delegateQuery('Message', {id: createdMessage.id}, context, info, subschema)
     }
   }
 })

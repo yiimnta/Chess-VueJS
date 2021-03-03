@@ -10,13 +10,14 @@ type User {
     role: Int!
     rooms: [Room] @relation(name: "JOINED_BY", direction: IN)
     friends: [User] @relation(name: "MADE_FRIEND", direction: OUT)
+    messages: [Message] @relation(name: "WORTE", direction: OUT)
 }
 
 type Message {
     id: ID!
     content: String!
     time: String!
-    author: User! @relation(name: "WORTE", direction: IN)
+    author: User @relation(name: "WORTE", direction: IN)
     room: Room @relation(name: "CONTAIN", direction: IN)
 }
 

@@ -37,15 +37,14 @@ class User {
     }
 
     async addFriend(friendUser) {
-        if(!friendUser) return new Error("Friend is missing!")
+        if(!friendUser) throw new Error("Friend is missing!")
         await this.node.relateTo(friendUser.node, 'friends')
         await friendUser.node.relateTo(this.node, 'friends')
-
         return this
     }
 
     comparePassword(password) {
-        return bcrypt.compareSync(password, this.password)
+        return bcrypt.compareSync(password, this.hashedPassword)
     }
 }
 

@@ -8,7 +8,7 @@ module.exports = {
         required: true
     },
     time: {
-        type: 'string',
+        type: 'int',
         required: true
     },
     author: {
@@ -20,6 +20,7 @@ module.exports = {
     room: {
         type: 'relationship',
         target: 'Room',
-        relationship: 'in'
+        relationship: 'CONTAIN',
+        direction: 'in'
     }
 };

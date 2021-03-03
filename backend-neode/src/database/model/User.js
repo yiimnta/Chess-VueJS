@@ -33,7 +33,12 @@ module.exports = {
         type: "relationship",
         target: "User",
         relationship: "MADE_FRIEND",
-        direction: "out",
-        eager: true
+        direction: "out"
     },
+    messages: {
+        type: "relationship",
+        target: "Message",
+        relationship: "WORTE",
+        direction: "out"
+    }
 };

@@ -12,6 +12,7 @@ const typeDefs = gql`
     signup(name: String!, email: String!, password: String!): String
     createRoom(friendId: String!): Room
     addFriend(friendId: String!): User
+    writeMessage(roomId: String!, content: String!): Message
   }
 `
 

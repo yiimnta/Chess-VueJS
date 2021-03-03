@@ -18,7 +18,8 @@ class UsersDataSource extends DataSource {
   }
 
   async login(email, password) {
-    let user = await User.first({ email: email })
+    let user = await User.first({ email })
+    console.log(user)
     if(user && user.comparePassword(password)) return this.createJWT(user)
     return null;
   }

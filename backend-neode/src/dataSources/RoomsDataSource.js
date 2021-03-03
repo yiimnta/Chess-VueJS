@@ -1,6 +1,7 @@
 const {DataSource} = require('apollo-datasource');
 const Room = require('./enities/Room');
 const User = require('./enities/User');
+const neode = require('../database/NeodeConfiguration')
 
 class RoomsDataSource extends DataSource {
   
@@ -18,16 +19,21 @@ class RoomsDataSource extends DataSource {
 
   async createRoom(friendId) {
 
-    if (!friendId) return new Error("Friend id not null");
+    if (!friendId) throw new Error("Friend id not null");
     const currentUser = await User.first(this.context.user)
     const friendUser = await User.first({ id : friendId })
 
-    if (!currentUser) return new Error("User not exists");
-    if (!friendUser) return new Error("Friend not exists");
+    if (!currentUser) throw new Error("User not exists");
+    if (!friendUser) throw new Error("Friend not exists");
+
+    //check Room already exists?
+    const checkedRoom = await Room.getRoomUF(currentUser.id, friendId)
+    if(checkedRoom) throw new Error("Room already created") //found
 
     const room = new Room({users: [currentUser, friendUser]})
     await room.save()
-    return room;  
+
+    return room;
   }
 }
 module.exports = { RoomsDataSource }
