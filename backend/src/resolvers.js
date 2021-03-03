@@ -10,24 +10,23 @@ const resolvers = {
     },
     Mutation: {
         login: async (object, params, context, resolveInfo) => {
-            const  session = context.driver.session();
-            let query = "MATCH (u:User {email: $email, password: $password}) RETURN u { .name , .password} SKIP 0";
+            const session = context.driver.session();
+            let query = "MATCH (u:User {email: $email, password: $password}) RETURN ID(u) as id SKIP 0";
             const email = params.email;
             const password = params.password;
-            const result  = await session.run(query, {email, password}).
-                then(result => {
-                    if (result.records){
-                       return  jwttoken.encode(email, password);
-                    } else{
-                        return null;
-                    }
-                })
+            const result = await session.run(query, {email, password}).then(result => {
+                // console.log(result.records[0]._fieldLookup.id)
+                let id = result.records[0]._fieldLookup.id;
+                if (result.records) {
+                    return jwttoken.encode(id, "");
+                } else {
+                    return null;
+                }
+            })
                 .catch(error => {
                     console.log(error)
-                });
-                // .then(() => session.close());
+                }).finally(() => session.close());
             return result;
-            session.close();
         }
     }
 };
