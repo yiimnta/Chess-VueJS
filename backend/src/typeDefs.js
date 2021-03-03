@@ -1,4 +1,3 @@
-
 const typeDefs = `
 type User{
     id: ID
@@ -7,6 +6,7 @@ type User{
     password: String!
     createdAt: DateTime
 }
+
 type Query{
     user: [User]
 }
