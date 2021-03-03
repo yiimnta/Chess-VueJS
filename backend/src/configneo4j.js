@@ -1,4 +1,5 @@
 import neo4j from 'neo4j-driver';
+import * as configdb from '../config.js'
 
 const driver = neo4j.driver(
     'bolt://3.92.18.75:7687',

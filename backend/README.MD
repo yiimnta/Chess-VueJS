@@ -10,3 +10,5 @@ url: https://grandstack.io/docs/neo4j-graphql-js/
 
 - cyper in Neo4j: https://neo4j.com/docs/cypher-manual/current/clauses/delete/#query-delete-introduction
 1. api login
+
+DB neo4j remote: https://sandbox.neo4j.com/
