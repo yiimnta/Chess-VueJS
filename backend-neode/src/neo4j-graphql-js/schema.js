@@ -17,6 +17,7 @@ type Message {
     id: ID!
     content: String!
     time: String!
+    status: Int!
     author: User @relation(name: "WORTE", direction: IN)
     room: Room @relation(name: "CONTAIN", direction: IN)
 }

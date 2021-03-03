@@ -8,6 +8,10 @@ module.exports = {
         required: true
     },
     time: {
+        type: 'string',
+        required: true
+    },
+    status: {
         type: 'int',
         required: true
     },
