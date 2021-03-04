@@ -36,6 +36,16 @@ class Room {
         Object.assign(this, {...node.properties() , node })
         return this
     }
+
+    static async getListUser(id) {
+        
+        if(!id) throw new Error("Room's Id is missing")
+        
+        const query = `MATCH (u:User)-[:JOINED_BY]-(ro:Room{id: '${id}' }) RETURN u.id as id`;
+        const res = (await neode.cypher(query))
+        if(!res) return []
+        return res.records.map(record => record.get('id'))
+    }
 }
 
 module.exports = Room

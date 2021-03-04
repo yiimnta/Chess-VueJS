@@ -1,4 +1,4 @@
-const {ApolloServer, makeExecutableSchema} = require('apollo-server');
+const {ApolloServer} = require('apollo-server');
 const {UsersDataSource} = require('./dataSources/UsersDataSource');
 const {RoomsDataSource} = require('./dataSources/RoomsDataSource');
 const {MessagesDataSource} = require('./dataSources/MessagesDataSource');

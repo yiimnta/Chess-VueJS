@@ -19,12 +19,14 @@ module.exports = {
         type: 'relationship',
         target: 'User',
         relationship: 'WROTE',
-        direction: 'in'
+        direction: 'in',
+        cascade: 'detach'
     },
     room: {
         type: 'relationship',
         target: 'Room',
         relationship: 'CONTAIN',
-        direction: 'in'
+        direction: 'in',
+        cascade: 'detach'
     }
 };

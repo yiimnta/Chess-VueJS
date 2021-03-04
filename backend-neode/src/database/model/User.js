@@ -25,6 +25,10 @@ module.exports = {
         type: 'string',
         required: true
     },
+    status: {
+        type: 'int',
+        required: true
+    },
     role: {
         type: 'int',
         required: true
@@ -33,12 +37,14 @@ module.exports = {
         type: "relationship",
         target: "User",
         relationship: "MADE_FRIEND",
-        direction: "out"
+        direction: "out",
+        cascade: 'detach'
     },
     messages: {
         type: "relationship",
         target: "Message",
         relationship: "WORTE",
-        direction: "out"
+        direction: "out",
+        cascade: 'detach'
     }
 };

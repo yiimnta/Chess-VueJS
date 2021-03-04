@@ -8,6 +8,9 @@ type User {
     avatar: String!
     email: String!
     role: Int!
+    status: Int!
+    password: String!
+    hashedPassword: String!
     rooms: [Room] @relation(name: "JOINED_BY", direction: IN)
     friends: [User] @relation(name: "MADE_FRIEND", direction: OUT)
     messages: [Message] @relation(name: "WORTE", direction: OUT)

@@ -1,12 +1,13 @@
 const bcrypt = require('bcrypt');
 const neode = require('../../database/NeodeConfiguration')
-
-const ROLE = { ADMIN: 1, USER: 0 }
+const { EUSER } = require('./Enum')
+const Room = require('./Room')
 
 class User {
     constructor(data){
       this.avatar = 'default-avatar.png'
-      this.role = ROLE.USER
+      this.role = EUSER.ROLE.USER
+      this.status = EUSER.STATUS.NORMAL
       data.hashedPassword = bcrypt.hashSync(data.password, 10);
       Object.assign(this, data);
     }
@@ -36,21 +37,45 @@ class User {
         return this
     }
 
-    async deleteById(id) {
+    static async deleteById(id) {
         const user = await User.first({ id })
         return await User.delete(user)
     }
 
     static async delete(user) {
-        if(!user) throw new Error("User not found")
-        await neode.delete(user.node)
+        if(!user) throw new Error("deleted user not null")
+        if(!user.node) throw new Error("User node is missing")
+        const query = ` MATCH (u:User { id: $id })--(ro:Room)
+                        WHERE Size((ro)-[:JOINED_BY]->()) = 1
+                        RETURN ro.id as id`
+        const res = await neode.cypher(query, { id: user.id })
+
+        if (res.records.length > 0) {
+            const deletedRooms = res.records.map(record => (record.get('id')))
+            let listRoom = JSON.stringify(deletedRooms).replace(/"/g,"'")
+            const delete_query = ` MATCH (u:User)--(ro:Room)-[:CONTAIN]-(m:Message)
+                                   WHERE ro.id in ${listRoom}
+                                   DETACH DELETE u, ro, m`
+            await neode.batch([{query:delete_query}])
+        } else {
+            await neode.delete(user.node)
+        }
         return user
+    }
+
+    async update(props = null) {
+        if(!this.node) throw new Error("User node is missing")
+        if(props) { 
+            Object.assign(this, props)
+        }
+        const {node, ...rest} = this
+        await node.update(rest)
+        Object.assign(this, {node})
+        return this
     }
 
     async addFriend(friendUser) {
         if(!friendUser) throw new Error("Friend is missing!")
-        // await this.node.relateTo(friendUser.node, 'friends')
-        // await friendUser.node.relateTo(this.node, 'friends')
         const params = {
             userId: this.id,
             friendId: friendUser.id
@@ -63,8 +88,6 @@ class User {
                     return f`, params}
         ]).then( res => {
             if(!res || res[0].records.length == 0) throw new Error("Something wrong when add friend!")
-        }).catch(e => {
-            console.log(e)
         })
 
         return this

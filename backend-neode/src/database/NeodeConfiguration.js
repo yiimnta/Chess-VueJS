@@ -1,4 +1,3 @@
-require("dotenv").config();
 const Neode = require('neode');
 
 if (!process.env.NEO4J_URL || !process.env.NEO4J_USER || !process.env.NEO4J_PASSWORD) {

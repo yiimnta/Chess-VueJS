@@ -7,12 +7,14 @@ module.exports = {
         type: "relationship",
         target: "User",
         relationship: "JOINED_BY",
-        direction: "out"
+        direction: "out",
+        cascade: 'detach'
     },
     messages: {
         type: "relationship",
         target: "Message",
         relationship: "CONTAIN",
-        direction: "out"
+        direction: "out",
+        cascade: 'detach'
     },
 };

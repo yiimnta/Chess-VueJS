@@ -1,12 +1,11 @@
 const neode = require('../../database/NeodeConfiguration')
-const {v4: uuidv4} = require('uuid')
-
-const STATUS = { NORMAL: 0, EDITED: 1, HIDE_Message: 2, HIDE_FRIEND: 3 }
+const { v4: uuidv4 } = require('uuid')
+const { EMESSAGE } = require('./Enum')
 
 class Message {
     constructor(data){
       this.time = Date.now().toString()
-      this.status = STATUS.NORMAL
+      this.status = EMESSAGE.STATUS.NORMAL
       Object.assign(this, data);
     }
 
