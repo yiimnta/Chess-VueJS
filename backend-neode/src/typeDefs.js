@@ -10,9 +10,20 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): String
     signup(name: String!, email: String!, password: String!): String
-    createRoom(friendId: String!): Room
+    deleteUser(id: String!): User
+    updateUser(id: String!, ): User
+    
     addFriend(friendId: String!): User
-    writeMessage(roomId: String!, content: String!): Message
+    deleteFriend(friendId: String!): User
+    blockFriend(friendId: String!): User
+    
+    createRoom(friendId: String!): Room
+    deleteRoom(id: String!): Room
+    updateRoom(id: String!): Room
+
+    createMessage(roomId: String!, content: String!): Message
+    updateMessage(id: String!, content: String!): Message
+    deleteMessage(id: String!): Message
   }
 `
 

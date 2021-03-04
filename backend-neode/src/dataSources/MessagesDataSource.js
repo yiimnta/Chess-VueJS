@@ -17,7 +17,7 @@ class MessagesDataSource extends DataSource {
     return await Message.all()
   }
 
-  async writeMessage(roomId, content) {
+  async createMessage(roomId, content) {
     if (!roomId) throw new Error("Room id not null");
     const currentUser = await User.first(this.context.user)
     const room = await Room.first({ id : roomId })

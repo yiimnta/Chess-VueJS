@@ -36,10 +36,37 @@ class User {
         return this
     }
 
+    async deleteById(id) {
+        const user = await User.first({ id })
+        return await User.delete(user)
+    }
+
+    static async delete(user) {
+        if(!user) throw new Error("User not found")
+        await neode.delete(user.node)
+        return user
+    }
+
     async addFriend(friendUser) {
         if(!friendUser) throw new Error("Friend is missing!")
-        await this.node.relateTo(friendUser.node, 'friends')
-        await friendUser.node.relateTo(this.node, 'friends')
+        // await this.node.relateTo(friendUser.node, 'friends')
+        // await friendUser.node.relateTo(this.node, 'friends')
+        const params = {
+            userId: this.id,
+            friendId: friendUser.id
+        }
+
+        await neode.batch([
+            {query:`MATCH (u:User { id: $userId }), (f:User { id: $friendId })
+                    CREATE (u)-[:MADE_FRIEND]->(f)
+                    CREATE (f)-[:MADE_FRIEND]->(u)
+                    return f`, params}
+        ]).then( res => {
+            if(!res || res[0].records.length == 0) throw new Error("Something wrong when add friend!")
+        }).catch(e => {
+            console.log(e)
+        })
+
         return this
     }
 

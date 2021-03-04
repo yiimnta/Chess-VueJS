@@ -48,11 +48,19 @@ const permissions = shield({
     },
     Mutation: {
       '*': deny,
-      createRoom: isAuthenticated,
       login: allow,
       signup: isValidatedSignup,
+      deleteUser: isAuthenticated,
+      updateUser: isAuthenticated,
       addFriend: isAuthenticated,
-      writeMessage: and(isAuthenticated, isValidatedWriteMessage)
+      deleteFriend: isAuthenticated,
+      blockFriend: isAuthenticated,
+      createRoom: isAuthenticated,
+      deleteRoom: isAuthenticated,
+      updateRoom: isAuthenticated,
+      createMessage: and(isAuthenticated, isValidatedWriteMessage),
+      updateMessage: and(isAuthenticated, isValidatedWriteMessage),
+      deleteMessage: isAuthenticated,
     },
   }, { allowExternalErrors: true })
 

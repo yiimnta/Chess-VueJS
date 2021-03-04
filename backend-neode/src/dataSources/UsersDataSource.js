@@ -23,6 +23,10 @@ class UsersDataSource extends DataSource {
     return null;
   }
 
+  async delete(id) {
+    return await User.delete(id);
+  }
+
   async addFriend(friendId) {
     const friend = await User.first({ id: friendId })
     const currentUser = await User.first(this.context.user)
