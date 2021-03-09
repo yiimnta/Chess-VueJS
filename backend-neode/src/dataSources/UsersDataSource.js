@@ -54,10 +54,26 @@ class UsersDataSource extends DataSource {
     return await user.update(data);
   }
 
-  async addFriend(friendId) {
-    const friend = await User.first({ id: friendId })
+  //id: Friend's Id
+  async addFriend(id) {
+    const friend = await User.first({ id })
     const currentUser = await User.first(this.context.user)
     return await currentUser.addFriend(friend)
+  }
+
+  //id: Friend's Id
+  async acceptFriend(id) {
+    const friend = await User.first({ id })
+    const currentUser = await User.first(this.context.user)
+    await friend.addFriend(currentUser)
+    return currentUser
+  }
+
+  //id: Friend's Id
+  async deleteFriend(id) {
+    const friend = await User.first({ id })
+    const currentUser = await User.first(this.context.user)
+    return await currentUser.deleteFriend(friend)
   }
 
   async allUsers() {

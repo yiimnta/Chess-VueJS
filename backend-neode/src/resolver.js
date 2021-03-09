@@ -42,12 +42,16 @@ const resolvers = ({subschema}) => ({
       return await context.dataSources.usersDataSrc.update(args)
     },
     addFriend: async (parent, args, context, info) => {
-      await context.dataSources.usersDataSrc.addFriend(args.friendId)
+      await context.dataSources.usersDataSrc.addFriend(args.id)
+      return await delegateQuery('User', context.user, context, info, subschema)
+    },
+    acceptFriend: async (parent, args, context, info) => {
+      await context.dataSources.usersDataSrc.acceptFriend(args.id)
       return await delegateQuery('User', context.user, context, info, subschema)
     },
     deleteFriend: async (parent, args, context, info) => {
-      //TODO
-      return null
+      await context.dataSources.usersDataSrc.deleteFriend(args.id)
+      return await delegateQuery('User', context.user, context, info, subschema)
     },
     blockFriend: async (parent, args, context, info) => {
       //TODO

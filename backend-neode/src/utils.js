@@ -6,11 +6,11 @@ const validateEmail = (email) => {
     return re.test(String(email).toLowerCase());
 }
 
-const validatePassword = (password) => !password.includes(' ') || password.length > 8
+const isGoodPassword = (password) => !password.includes(' ') && password.length > 7
 
 const isAdminUser = async (props) => {
     const currentUser = await User.first(props)
     return currentUser && currentUser.role == EUSER.ROLE.ADMIN
 }
 
-module.exports = { validateEmail, validatePassword, isAdminUser }
+module.exports = { validateEmail, isGoodPassword, isAdminUser }

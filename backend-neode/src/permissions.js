@@ -1,5 +1,5 @@
 const { rule, shield, allow, deny, and, or} = require('graphql-shield');
-const { validateEmail, validatePassword, isAdminUser } = require('./utils')
+const { validateEmail, isGoodPassword, isAdminUser } = require('./utils')
 const User = require('./dataSources/enities/User')
 const Room = require('./dataSources/enities/Room')
 
@@ -47,7 +47,7 @@ const isValidatedSignup = rule({ cache: "contextual" })(
 
     //check password
     args.password = args.password.trim()
-    if (!validatePassword(args.password)) return new Error('Password is invalid!')
+    if (!isGoodPassword(args.password)) return new Error('Password is invalid!')
 
     return true
   }
@@ -64,25 +64,8 @@ const isValidatedWriteMessage = rule({ cache: "contextual" })(
 
 const requireId = rule({ cache: "contextual" })(
   async (parent, args, context ) => {
-    if(!args.id) return new Error('Id is missing')
-    args.id = args.id.trim()
-    return args.id !== ''
-  }
-);
-
-const requireFriendId = rule({ cache: "contextual" })(
-  async (parent, args, context ) => {
-    if(!args.friendId) return new Error('friends Id is missing')
-    args.friendId = args.friendId.trim()
-    return args.friendId !== ''
-  }
-);
-
-const requireRoomId = rule({ cache: "contextual" })(
-  async (parent, args, context ) => {
-    if(!args.roomId) return new Error('friends Id is missing')
-    args.roomId = args.roomId.trim()
-    return args.roomId !== ''
+    if(!args.id || args.id.trim() == '') return new Error('Id is missing')
+    return true
   }
 );
 
@@ -90,16 +73,19 @@ const requireRoomId = rule({ cache: "contextual" })(
 const permissions = shield({
     Query: {
       '*': deny,
-      users: isAdmin,
-      rooms: isAdmin,
-      messages: isAdmin,
-      Room: or(and(isOwnerRoom), isAdmin)
+      users: and(isAuthenticated),
+      rooms: and(isAuthenticated),
+      messages: and(isAuthenticated),
+      Room: or(isAuthenticated, isAdmin, isOwnerRoom),
+      User: or(isAuthenticated, isAdmin, isOwnerId)
     },
     User: {
       '*': allow,
+      messages: or(isAdmin, isOwnerId),
+      rooms: or(isAdmin, isOwnerId),
       password: isAdmin,
       hashedPassword: isAdmin,
-      status: isAdmin,
+      status: or(isAdmin, isOwnerId),
       role: isAdmin
     },
     Mutation: {
@@ -111,17 +97,18 @@ const permissions = shield({
       updateUser: and(requireId, isAuthenticated),
 
       //friend
-      addFriend: and(requireFriendId, isAuthenticated),
-      deleteFriend: and(requireFriendId, isAuthenticated),
-      blockFriend: and(requireFriendId, isAuthenticated),
+      addFriend: and(requireId, isAuthenticated),
+      acceptFriend: and(requireId, isAuthenticated),
+      deleteFriend: and(requireId, isAuthenticated),
+      blockFriend: and(requireId, isAuthenticated),
 
       //room
-      createRoom: and(requireFriendId, isAuthenticated),
+      createRoom: and(requireId, isAuthenticated),
       deleteRoom: and(requireId, isAuthenticated),
 
       //message
-      createMessage: and(isAuthenticated, requireRoomId, isValidatedWriteMessage),
-      updateMessage: and(isAuthenticated, requireId, isValidatedWriteMessage),
+      createMessage: and(requireId, isAuthenticated, isValidatedWriteMessage),
+      updateMessage: and(requireId, isAuthenticated, isValidatedWriteMessage),
       deleteMessage: and(requireId, isAuthenticated),
     },
   }, { allowExternalErrors: true })
