@@ -5,10 +5,10 @@
       <span>Chess</span>
     </a>
     <ul>
-      <li><a href="#" class="active">Home</a></li>
-      <li><a href="#">Service</a></li>
-      <li><a href="#">Contact</a></li>
-      <li><a href="#">Login</a></li>
+      <li><a href="" class="active">Home</a></li>
+      <li><a href="/service">Service</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/login">Login</a></li>
     </ul>
   </header>
 </template>

@@ -10,7 +10,7 @@ const schema = makeAugmentedSchema({ typeDefs,
     resolvers,
     config:{
         query: true,
-        mutation: false
+        mutation: true
     } });
 
 
