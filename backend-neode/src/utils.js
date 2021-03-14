@@ -6,7 +6,7 @@ const validateEmail = (email) => {
     return re.test(String(email).toLowerCase());
 }
 
-const isGoodPassword = (password) => !password.includes(' ') && password.length > 7
+const isGoodPassword = (password) => !password.includes(' ')
 
 const isAdminUser = async (props) => {
     const currentUser = await User.first(props)

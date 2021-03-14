@@ -38,7 +38,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/v-tooltip'
+    '@/plugins/v-tooltip',
+    '@/plugins/v-focus'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -50,7 +51,8 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
+    '@nuxtjs/pwa'
   ],
 
   fontawesome: {
@@ -64,13 +66,17 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    'nuxt-socket-io'
+    'nuxt-socket-io',
+    '@nuxt/content',
+    '@nuxtjs/apollo',
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      name: 'CountryRoads News App',
+      lang: 'en',
+      start_url: '/',
     }
   },
 
@@ -79,5 +85,24 @@ export default {
       name: 'main',
       url: 'http://localhost:3000'
     }]
-  }
+  },
+  apollo: {
+    // Sets up the apollo client endpoints
+    clientConfigs: {
+      default: {
+        // required
+        httpEndpoint: 'http://localhost:4000',
+      },
+    },
+  },
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        component: resolve(__dirname, 'pages/404.vue'),
+      })
+    },
+  },
 }
