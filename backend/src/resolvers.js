@@ -1,6 +1,7 @@
 import neo4jgraphql from "neo4j-graphql-js";
 // const neo4jgraphql = _neo4jgraphql;
 import jwttoken from './service/jwttoken.js'
+import bcypt from './service/bcrypt.js'
 
 const resolvers = {
     Query: {
@@ -10,24 +11,53 @@ const resolvers = {
     },
     Mutation: {
         login: async (object, params, context, resolveInfo) => {
-            const  session = context.driver.session();
-            let query = "MATCH (u:User {email: $email, password: $password}) RETURN u { .name , .password} SKIP 0";
+            const session = context.driver.session();
+            let query = "MATCH (u:User {email: $email}) RETURN ID(u), u.password as password SKIP 0";
             const email = params.email;
-            const password = params.password;
-            const result  = await session.run(query, {email, password}).
-                then(result => {
-                    if (result.records){
-                       return  jwttoken.encode(email, password);
-                    } else{
+
+            const result = await session.run(query, {email}).then(result => {
+                let passinDB = result.records[0].get('password')
+                const decryptPassword = bcypt.decryptPassword(params.password, passinDB);
+                if (decryptPassword === true){
+                    let id = result.records[0]._fieldLookup.id;
+                    if (result.records) {
+                        return jwttoken.encode(id, "");
+                    } else {
                         return null;
                     }
-                })
+                }else{
+                    return false;
+                }
+
+            })
                 .catch(error => {
                     console.log(error)
-                });
-                // .then(() => session.close());
+                }).finally(() => session.close());
             return result;
-            session.close();
+        },
+        signup: async (object, params, context, resolveInfo) => {
+            const session = context.driver.session();
+            let password = await bcypt.hashPassword(params.password).toString();
+            let query = "CREATE (u:User {name: $name, email: $email, password: $password}) RETURN u.name as name, u.email as email, id(u) as id";
+            let email = params.email
+            let name = params.name
+
+            const result = await session.run(query, {
+                name, email, password})
+                .then(response => {
+                if (response){
+                    let id = ''
+                    response.records.forEach( (e, index) => {
+                        id = e.get('id').toString()
+                    })
+                    return id;
+                }else{
+                    return false;
+                }
+            }).catch(error => {
+                console.log(error)
+            }).finally(() => session.close());
+            return result;
         }
     }
 };
