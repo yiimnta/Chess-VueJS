@@ -2,12 +2,13 @@ const { rule, shield, allow, deny, and, or} = require('graphql-shield');
 const { validateEmail, isGoodPassword, isAdminUser } = require('./utils')
 const User = require('./dataSources/enities/User')
 const Room = require('./dataSources/enities/Room')
+const { SIGNUP_ERRORS, LOGIN_ERRORS} = require('./errors')
 
 const isAuthenticated = rule({ cache: "contextual" })(
   async (parent, args, context ) => {
-    if(!context.user) return false
-    let isExist = await User.exists(context.user);
-    return isExist;
+    if(!context.user) return new Error(LOGIN_ERRORS.LOGIN_AUTH)
+    if(!await User.exists(context.user)) return new Error(LOGIN_ERRORS.LOGIN_FAILED)
+    return true;
   }
 );
 
@@ -37,17 +38,18 @@ const isAdmin = rule({ cache: "contextual" })(
 const isValidatedSignup = rule({ cache: "contextual" })(
   async (parent, args, context ) => {
 
-    if (!args) return new Error('Login failed')
+    if (!args) return new Error('Sign up failed')
 
     //check email
-    if (!validateEmail(args.email)) return new Error('Email is invalid!')
+    if (!validateEmail(args.email)) return new Error(SIGNUP_ERRORS.EMAIL_INVALID)
 
     //check exist email
-    if (await User.exists( { email: args.email } )) return new Error('Email exists!')
+    if (await User.exists( { email: args.email } )) return new Error(SIGNUP_ERRORS.EMAIL_EXIST)
 
     //check password
     args.password = args.password.trim()
-    if (!isGoodPassword(args.password)) return new Error('Password is invalid!')
+    if(args.password.length < 8) return new Error(SIGNUP_ERRORS.PASSWORD_SHORT)
+    if (!isGoodPassword(args.password)) return new Error(SIGNUP_ERRORS.PASSWORD_INVALID)
 
     return true
   }

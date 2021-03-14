@@ -30,7 +30,7 @@ export default {
   computed: {
     listChess () {
       const rs = [...this.list]
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 4; i++) {
         rs.push(...this.randomElement())
       }
       return rs
@@ -52,7 +52,7 @@ export default {
       return array.map((e) => {
         e.light = false
         if (lightnumber < 0) { return e }
-        if (Math.floor(Math.random() * 30) === 1) {
+        if (Math.floor(Math.random() * 10) === 1) {
           e.light = true
           lightnumber -= 1
         }

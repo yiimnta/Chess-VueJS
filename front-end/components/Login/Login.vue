@@ -5,15 +5,15 @@
       <div>
         <div class="form-data">
           <span :class="{ active : formData.email && formData.email !== '' }">Username</span>
-          <input v-model="formData.email" type="email" name="emailn" tabindex="1">
+          <input v-model.trim="formData.email" v-focus  type="email" name="emailn" tabindex="1">
         </div>
         <div class="form-data">
           <span :class="{ active : formData.password && formData.password !== '' }">Password</span>
-          <input v-model="formData.password" type="password" name="passwordn" tabindex="2">
+          <input v-model.trim="formData.password" type="password" name="passwordn" tabindex="2">
         </div>
         <div>
-          <a href="#">Have already an account?</a>
-          <button type="submit" tabindex="3">
+          <a href="#">Not registerd! Create an account?</a>
+          <button type="submit" tabindex="3" :disabled="loading || !valid">
             Login
           </button>
         </div>
@@ -23,18 +23,42 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import { UNKNOWN_ERROR, LOGIN_ERRORS } from '@/static/errors'
+
 export default {
   data () {
     return {
       formData: {
         email: null,
         password: null
-      }
+      },
+      error: null,
+      loading: false
     }
   },
   methods: {
-    submit () {
-      return false
+    ...mapActions('auth', ['login']),
+    async submit () {
+      try {
+        this.error = null
+        this.loading = true
+        await this.login({ ...this.formData })
+        this.$router.push({ path: '/' })
+      } catch (ex) {
+        let message = ex.message.replace('GraphQL error:', ' ').trim()
+        if (!LOGIN_ERRORS.includes(message)) {
+          message = UNKNOWN_ERROR
+        }
+        this.error = { message }
+      } finally {
+        this.loading = false
+      }
+    }
+  },
+  computed: {
+    valid () {
+      return this.formData.email && this.formData.password
     }
   }
 }
@@ -84,6 +108,7 @@ export default {
           outline: none;
           width: 100%;
           color: #fff;
+          padding-left: 5px;
         }
       }
       button {
@@ -93,11 +118,15 @@ export default {
         border-radius: 3px;
         float: right;
         width: 100px;
-        &:focus {
-          background: #3cec93;
-          color: black;
-          outline: none;
+        transition: all 0.3s ease;
+        &:focus, &:hover {
+          background: #1d791d;
           box-shadow: 0 0 120px #0f0;
+        }
+        &:disabled {
+          background: none;
+          cursor: no-drop;
+          box-shadow: none;
         }
       }
       a {
@@ -106,6 +135,7 @@ export default {
         top: 10px;
         text-decoration: none;
         outline: none;
+        font-size: 12px;
       }
     }
   }
