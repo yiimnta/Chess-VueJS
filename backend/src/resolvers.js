@@ -37,17 +37,20 @@ const resolvers = {
         },
         signup: async (object, params, context, resolveInfo) => {
             const session = context.driver.session();
-            let hashPassword = await bcypt.hashPassword(params.password);
-            console.log(hashPassword)
-            let query = "CREATE (u:User {name: $name, email: $email, password: $password}) RETURN u.name as name, u.email as email";
+            let password = await bcypt.hashPassword(params.password).toString();
+            let query = "CREATE (u:User {name: $name, email: $email, password: $password}) RETURN u.name as name, u.email as email, id(u) as id";
             let email = params.email
             let name = params.name
 
             const result = await session.run(query, {
-                name, email, hashPassword})
+                name, email, password})
                 .then(response => {
                 if (response){
-                    return 'oki';
+                    let id = ''
+                    response.records.forEach( (e, index) => {
+                        id = e.get('id').toString()
+                    })
+                    return id;
                 }else{
                     return false;
                 }
