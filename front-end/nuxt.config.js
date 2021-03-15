@@ -68,7 +68,7 @@ export default {
     '@nuxtjs/pwa',
     'nuxt-socket-io',
     '@nuxt/content',
-    '@nuxtjs/apollo',
+    '@nuxtjs/apollo'
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -76,7 +76,7 @@ export default {
     manifest: {
       name: 'CountryRoads News App',
       lang: 'en',
-      start_url: '/',
+      start_url: '/'
     }
   },
 
@@ -91,18 +91,18 @@ export default {
     clientConfigs: {
       default: {
         // required
-        httpEndpoint: 'http://localhost:4000',
-      },
-    },
+        httpEndpoint: 'http://localhost:4000'
+      }
+    }
   },
 
   router: {
-    extendRoutes(routes, resolve) {
+    extendRoutes (routes, resolve) {
       routes.push({
         name: 'custom',
         path: '*',
-        component: resolve(__dirname, 'pages/404.vue'),
+        component: resolve(__dirname, 'pages/404.vue')
       })
-    },
-  },
+    }
+  }
 }

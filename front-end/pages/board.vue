@@ -1,12 +1,12 @@
 <template>
   <div>
-    service page
+    <Board />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Service'
+  name: 'Board'
 }
 </script>
 

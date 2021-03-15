@@ -41,3 +41,5 @@ CREATE(u:User {
 ## Guide
 
 <h4>The Server ready at http://localhost:4000 </h4>
+
+## Change the neo4j's password: alter user neo4j set password "neo4j"

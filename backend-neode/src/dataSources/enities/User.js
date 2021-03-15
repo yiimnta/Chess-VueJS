@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const neode = require('../../database/NeodeConfiguration')
 const { EUSER } = require('./Enum')
-const {ER_PUBLIC, ER_PUB_TYPE, ER_USER, ER_USER_TYPE } = require('../../error')
+const {ER_PUBLIC, ER_PUB_TYPE, ER_USER, ER_USER_TYPE } = require('../../errors')
 
 const beforeFriendAction = async (user, friend) => {
     if (!user || !user.node || !friend || !friend.node) 
