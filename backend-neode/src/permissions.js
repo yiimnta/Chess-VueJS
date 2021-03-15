@@ -37,7 +37,6 @@ const isAdmin = rule({ cache: "contextual" })(
 
 const isValidatedSignup = rule({ cache: "contextual" })(
   async (parent, args, context ) => {
-
     if (!args) return new Error('Sign up failed')
 
     //check email

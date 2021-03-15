@@ -25,11 +25,12 @@ export default {}
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: white;
   .textBox {
     position: relative;
     max-width: 600px;
     h2 {
-      color: #333;
+      color: white;
       font-size: 4em;
       line-height: 1.4em;
       font-weight: 500;

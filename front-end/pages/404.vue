@@ -1,9 +1,13 @@
 <template>
   <div class="container">
-    <h2 class="title" style="background: #f3f3f3">PAGE NOT FOUND :( !!!!</h2>
-    <NuxtLink to="/"><b>Go Home</b></NuxtLink>
-    <br />
-    <img src="~/assets/etc/404.png" />
+    <h2 class="title" style="background: #f3f3f3">
+      PAGE NOT FOUND :( !!!!
+    </h2>
+    <NuxtLink to="/">
+      <b>Go Home</b>
+    </NuxtLink>
+    <br>
+    <img src="~/assets/etc/404.png">
   </div>
 </template>
 <style>

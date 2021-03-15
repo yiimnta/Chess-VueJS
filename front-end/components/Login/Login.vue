@@ -5,7 +5,7 @@
       <div>
         <div class="form-data">
           <span :class="{ active : formData.email && formData.email !== '' }">Username</span>
-          <input v-model.trim="formData.email" v-focus  type="email" name="emailn" tabindex="1">
+          <input v-model.trim="formData.email" v-focus type="email" name="emailn" tabindex="1">
         </div>
         <div class="form-data">
           <span :class="{ active : formData.password && formData.password !== '' }">Password</span>
@@ -37,6 +37,11 @@ export default {
       loading: false
     }
   },
+  computed: {
+    valid () {
+      return this.formData.email && this.formData.password
+    }
+  },
   methods: {
     ...mapActions('auth', ['login']),
     async submit () {
@@ -54,11 +59,6 @@ export default {
       } finally {
         this.loading = false
       }
-    }
-  },
-  computed: {
-    valid () {
-      return this.formData.email && this.formData.password
     }
   }
 }
