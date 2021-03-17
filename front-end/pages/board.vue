@@ -1,15 +1,12 @@
 <template>
   <div>
-    <Board />
+    <board />
   </div>
 </template>
 
 <script>
+import Board from '@/components/Board/Board.vue'
 export default {
-  name: 'Board'
+  components: { Board }
 }
 </script>
-
-<style scoped>
-
-</style>
