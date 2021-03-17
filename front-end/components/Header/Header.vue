@@ -5,20 +5,38 @@
       <span>Chess</span>
     </a>
     <ul>
-      <li><a href="" :class="activeClass()">Home</a></li>
-      <li><a href="/service" :class="activeClass('service')">News</a></li>
-      <li><a href="/board" :class="activeClass('board')">Game service</a></li>
-      <li><a href="/contact" :class="activeClass('contact')">Contact</a></li>
+      <li>
+        <NuxtLink to="/">
+          Home
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink to="/service">
+          News
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink to="/board">
+          Game service
+        </NuxtLink>
+      </li>
+      <li>
+        <NuxtLink to="/contact">
+          Contact
+        </NuxtLink>
+      </li>
       <li v-if="getAuthentication() == false">
-        <a href="/login" :class="activeClass('login')">Login</a>
+        <NuxtLink to="/login">
+          Login
+        </NuxtLink>
       </li>
       <li v-else>
         <a @click="handleLogout()">Logout</a>
       </li>
     </ul>
-    <div class="user">
+    <!-- <div class="user">
       <img :src="require(`~/assets/users/avatar/tinhcv.jpg`)" alt="tinhcv" class="user-image">
-    </div>
+    </div> -->
   </header>
 </template>
 
@@ -26,31 +44,9 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  data () {
-    return {
-      currentLink: ''
-    }
-  },
-  computed: {
-    routes () {
-      return window.routes
-    }
-  },
-  mounted () {
-    this.setCurrentLink()
-  },
   methods: {
     ...mapActions('auth', ['logout', 'getToken']),
     ...mapGetters('auth', ['isAuthenticated']),
-    route (url) {
-      return this.routes.route(url)
-    },
-    activeClass (segment) {
-      return segment === this.currentLink ? 'active' : ''
-    },
-    setCurrentLink () {
-      this.currentLink = new URL(location.href).pathname.split('/').pop()
-    },
     handleLogout () {
       this.logout()
       this.$router.push({ path: '/contact' })
@@ -71,7 +67,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #d4a2a2;
   color: white;
   .logo {
     position: relative;
@@ -92,12 +87,12 @@ header {
     li {
         a {
             display: inline-block;
-            color: white;
+            color: #928080;
             font-weight: 400;
             margin-left: 40px;
             text-decoration: none;
-            &.active {
-                color:#fff;
+            &.nuxt-link-exact-active {
+              color:#fff;
             }
         }
     }

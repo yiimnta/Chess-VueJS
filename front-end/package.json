@@ -17,7 +17,6 @@
     "@nuxt/content": "^1.14.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/auth": "^4.9.1",
-    "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/pwa": "^3.3.4",
     "cookieparser": "^0.1.0",
     "core-js": "^3.8.2",

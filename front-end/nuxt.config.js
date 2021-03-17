@@ -51,7 +51,6 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/fontawesome',
     '@nuxtjs/pwa'
   ],
 
