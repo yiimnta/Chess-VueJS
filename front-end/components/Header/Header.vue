@@ -16,7 +16,7 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/board">
+        <NuxtLink to="/games">
           Game service
         </NuxtLink>
       </li>
