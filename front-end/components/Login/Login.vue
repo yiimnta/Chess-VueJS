@@ -1,5 +1,8 @@
 <template>
   <div class="login-signup-form">
+    <NuxtLink to="/">
+      <Logo />
+    </NuxtLink>
     <form @submit.prevent="submit()">
       <h4>Login</h4>
       <div>
@@ -76,6 +79,12 @@ export default {
   padding: 20px 30px;
   box-shadow: 0 0 20px #0f0;
   border-radius: 10px;
+  svg {
+    transform: scale(0.6);
+    position: absolute;
+    top: -200px;
+    left: -70px;
+  }
   h4 {
     color: #0f0;
     border-bottom: 5px solid;
