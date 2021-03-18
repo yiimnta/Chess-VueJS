@@ -28,6 +28,10 @@ export default {
       }
     ],
     script: [
+      // {
+      //   type: 'text/javascript',
+      //   src: 'anime.min.js'
+      // }
     ]
   },
 
@@ -51,7 +55,8 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-animejs'
   ],
 
   fontawesome: {
