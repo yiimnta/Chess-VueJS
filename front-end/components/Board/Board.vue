@@ -27,11 +27,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data: () => ({
-    labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-    board: ['rnbqkbnr', 'pppppppp', '8', '8', '8', '8', 'PPPPPPPP', 'RNBQKBNR']
-  })
+    labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+  }),
+  computed: {
+    ...mapState('auth', ['listGames']),
+    board () {
+      return this.listGames[0].board
+    }
+  }
 }
 </script>
 

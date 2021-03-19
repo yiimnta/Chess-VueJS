@@ -9,7 +9,10 @@ import { SET_TOKEN, SET_USER } from '.'
 
 export const state = () => ({
   token: null,
-  currentUser: null
+  currentUser: null,
+  listGames: [
+    { id: 1, board: ['rnbqkbnr', 'pppppppp', '8', '8', '8', '8', 'PPPPPPPP', 'RNBQKBNR'] }
+  ]
 })
 
 export const getters = {
