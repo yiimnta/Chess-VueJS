@@ -11,9 +11,9 @@
     <path
       v-anime="{
         strokeDashoffset: [this.$anime.setDashoffset, 0],
-        easing: 'easeInOutSine',
-        duration: 3000,
-        delay: () => 1500,
+        easing: 'easeInOutQuad',
+        duration: 4500,
+        delay: (el, i) => { return i * 250 },
         direction: 'alternate',
         loop: true,
       }"

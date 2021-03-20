@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import RunningLine from '../components/Login/RunningLine.vue'
+import RunningLine from '@/components/Login/RunningLine.vue'
+
 export default {
   components: { RunningLine },
   layout: 'loginLA'

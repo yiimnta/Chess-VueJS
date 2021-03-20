@@ -1,24 +1,18 @@
 <template>
-  <div
-    :id="cellKey"
-    class="cell-chess"
-    @dragover="dragOver($event)"
-    @drop="dragDrop($event)"
-    @dragenter="dragEnter($event)"
-    @dragleave="dragLeave($event)"
-  >
+  <div :id="cellKey" class="cell-chess">
     <img
       v-if="cell !== ' '"
       :id="cellKey+'-'+name"
       :draggable="true"
       :src="urlImage"
-      @dragstart="dragStart($event)"
-      @dragend="dragEnd($event)"
+      @click="dragChess($event)"
     >
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   props: {
     cell: {
@@ -31,6 +25,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('auth', ['listGames']),
     name () {
       return (this.cell === this.cell.toLocaleLowerCase() ? 'b' : 'w') + this.cell.toLocaleUpperCase()
     },
@@ -43,34 +38,32 @@ export default {
     }
   },
   methods: {
-    dragStart (event) {
-      event.target.parentElement.className += ' chess-drag'
-      event.dataTransfer.setData('chess-piece', event.target.id)
-      event.dataTransfer.setData('parent-cell', event.target.parentElement.id)
-      setTimeout(() => {
-        event.target.className = 'invisible'
-      }, 0)
-    },
-    dragEnd (event) {
-      event.target.className = ''
-    },
-    dragOver (event) {
-      event.preventDefault()
-    },
-    dragDrop (event) {
-      event.preventDefault()
-      event.target.className = 'cell-chess'
-      const piece = event.dataTransfer.getData('chess-piece')
-      const cell = event.dataTransfer.getData('parent-cell')
-      event.target.appendChild(document.getElementById(piece))
-      document.getElementById(cell).className = 'cell-chess'
-    },
-    dragEnter (event) {
-      event.preventDefault()
-      event.target.className += ' chess-hovered'
-    },
-    dragLeave (event) {
-      event.target.className = 'cell-chess' + (event.target.className.includes('chess-drag') ? ' chess-drag' : '')
+    dragChess (e) {
+      /**
+       * TODO: check whether the chesspiece is of currentUser or not
+       * yes: continue
+       * no: do nothing => return
+       */
+
+      if (e.target.parentElement.className.includes('chess-drag')) { // the chess piece is selected?
+        e.target.parentElement.className = 'cell-chess'
+        return
+      }
+
+      // reset all state of chesspieces
+      document.querySelectorAll('.cell-chess.chess-drag').forEach((e) => { e.className = 'cell-chess' })
+      e.target.parentElement.className += ' chess-drag'
+
+      // search selected chesspiece's moves
+      const movesList = []
+      switch (this.cell) {
+        case 'p':
+        case 'P':
+          movesList.push(...this.$chess.getMovesPawn(this.cellKey, this.listGames[0].board))
+          break
+        default:
+          break
+      }
     }
   }
 }
@@ -84,14 +77,17 @@ $size-cell: 80px;
     min-height: $size-cell;
     max-height: $size-cell;
     border: 1px solid #585986;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease-in-out;
     img {
         max-width: 90%;
         margin: auto;
         cursor: move;
     }
     &.chess-drag {
-        border: 4px solid #e49612;
+      transform: scale(1.0);
+      background: #75ff8c!important;
+      border: 5px solid #0ace58;
+      box-shadow: -1px 5px 15px 4px #000;
     }
     &.chess-hovered {
         transform: scale(1.1);

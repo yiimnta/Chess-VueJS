@@ -15,7 +15,7 @@ export default {
   },
   data () {
     return {
-      usingLight: true,
+      usingLight: false,
       list: [
         { fi: 'chess', light: false },
         { fi: 'chess-bishop', light: false },
